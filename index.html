@@ -23,7 +23,7 @@
             align-items: center; 
             justify-content: center; 
             min-height: 100vh; 
-            font-family: ui-rounded, -apple-system, BlinkMacSystemFont, "SF Pro Rounded", sans-serif;
+            font-family: ui-rounded, -apple-system, BlinkMacSystemFont, "SF Pro Rounded", system-ui, sans-serif;
             overflow: hidden;
             text-align: center;
         }
@@ -40,13 +40,13 @@
             z-index: -1;
         }
 
-        /* Title Sitting Above Cards */
+        /* Header */
         h1 {
             color: var(--chur-olive);
             font-size: 72px;
             font-weight: 800;
             letter-spacing: -3px;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
 
         /* Card Stack Container */
@@ -64,31 +64,63 @@
             border-radius: 14px;
             padding: 18px;
             color: white;
-            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.18);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: all 0.5s ease;
         }
 
+        /* Card 1 is the front card with the Badge */
         .card-1 { background: linear-gradient(135deg, var(--card-chase), #0a3166); transform: rotate(-4deg) translateY(0); z-index: 3; }
-        .card-2 { background: linear-gradient(135deg, var(--card-amex), #a38629); transform: rotate(2deg) translateY(10px); z-index: 2; opacity: 0.9; }
-        .card-3 { background: linear-gradient(135deg, var(--card-gold), #8e7340); transform: rotate(6deg) translateY(20px); z-index: 1; opacity: 0.7; }
+        .card-2 { background: linear-gradient(135deg, var(--card-amex), #a38629); transform: rotate(2deg) translateY(12px) scale(0.96); z-index: 2; opacity: 0.9; }
+        .card-3 { background: linear-gradient(135deg, var(--card-gold), #8e7340); transform: rotate(6deg) translateY(24px) scale(0.92); z-index: 1; opacity: 0.7; }
 
         .card-issuer { font-weight: 900; font-size: 10px; letter-spacing: 1.5px; text-align: left; }
         .chip { width: 24px; height: 18px; background: #D4B483; border-radius: 3px; opacity: 0.8; }
 
+        /* Reward Badge (Capsule Pill) */
+        .badge {
+            position: absolute;
+            top: -16px;
+            right: -12px;
+            background: var(--chur-olive);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            box-shadow: 0 6px 18px rgba(92, 90, 51, 0.4);
+            white-space: nowrap;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
         /* Catchy Footer Text */
-        .footer-text {
+        .hero-footer {
             font-size: 28px;
             font-weight: 600;
             color: var(--chur-olive);
             letter-spacing: -0.5px;
+            margin-bottom: 40px;
         }
 
         .highlight {
             color: var(--chur-medium-gray);
             font-weight: 400;
+        }
+
+        /* Copyright Footer */
+        .copyright {
+            position: fixed;
+            bottom: 30px;
+            font-size: 13px;
+            color: var(--chur-medium-gray);
+            font-weight: 500;
         }
     </style>
 </head>
@@ -100,6 +132,7 @@
 
     <div class="stack-container">
         <div class="card card-1">
+            <div class="badge">5x Rewards at ABCD cafe ✨</div>
             <div style="display: flex; justify-content: space-between;">
                 <div class="card-issuer">CHUR</div>
                 <div class="chip"></div>
@@ -120,8 +153,12 @@
         </div>
     </div>
 
-    <div class="footer-text">
+    <div class="hero-footer">
         Your wallet. <span class="highlight">Smarter?</span>
+    </div>
+
+    <div class="copyright">
+        &copy; 2026 Chur App &nbsp;·&nbsp; Coming soon to iOS
     </div>
 
 </body>
