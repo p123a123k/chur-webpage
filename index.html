@@ -11,7 +11,7 @@
             --chur-medium-gray: #888888;
             --card-chase: #104b9b;
             --card-amex: #d4af37;
-            --card-gold: #c5a059;
+            --card-grocery: #1a7a4d; /* Green for Grocery */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -21,14 +21,14 @@
             display: flex; 
             flex-direction: column;
             align-items: center; 
-            justify-content: center; 
+            justify-content: flex-start; /* Move content up */
             min-height: 100vh; 
-            font-family: ui-rounded, -apple-system, BlinkMacSystemFont, "SF Pro Rounded", system-ui, sans-serif;
+            font-family: ui-rounded, -apple-system, BlinkMacSystemFont, "SF Pro Rounded", sans-serif;
             overflow: hidden;
             text-align: center;
+            padding-top: 8vh; /* Controlled space from top */
         }
 
-        /* Dot Grid Background */
         .dot-grid {
             position: fixed;
             inset: 0;
@@ -40,21 +40,30 @@
             z-index: -1;
         }
 
-        /* Header */
+        /* "Coming Soon" moved above header */
+        .coming-soon-label {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--chur-medium-gray);
+            margin-bottom: 8px;
+        }
+
         h1 {
             color: var(--chur-olive);
             font-size: 72px;
-            font-weight: 600;
+            font-weight: 800;
             letter-spacing: -3px;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
+            line-height: 1;
         }
 
-        /* Card Stack Container */
         .stack-container {
             position: relative;
             width: 240px;
             height: 180px;
-            margin-bottom: 60px;
+            margin-bottom: 40px;
         }
 
         .card {
@@ -68,17 +77,24 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: all 0.8s ease;
         }
 
-        /* Card 1 is the front card with the Badge */
-        .card-1 { background: linear-gradient(135deg, var(--card-chase), #0a3166); transform: rotate(-4deg) translateY(0); z-index: 3; }
-        .card-2 { background: linear-gradient(135deg, var(--card-amex), #a38629); transform: rotate(2deg) translateY(12px) scale(0.96); z-index: 2; opacity: 0.9; }
-        .card-3 { background: linear-gradient(135deg, var(--card-gold), #8e7340); transform: rotate(6deg) translateY(24px) scale(0.92); z-index: 1; opacity: 0.7; }
+        /* Card 1: Color Transition Animation */
+        .card-1 { 
+            z-index: 3; 
+            transform: rotate(-4deg);
+            animation: cardColorSwap 6s infinite;
+        }
+        .card-2 { background: var(--card-amex); transform: rotate(2deg) translateY(12px) scale(0.96); z-index: 2; opacity: 0.9; }
+        .card-3 { background: #c5a059; transform: rotate(6deg) translateY(24px) scale(0.92); z-index: 1; opacity: 0.7; }
 
-        .card-issuer { font-weight: 900; font-size: 10px; letter-spacing: 1.5px; text-align: left; }
-        .chip { width: 24px; height: 18px; background: #D4B483; border-radius: 3px; opacity: 0.8; }
+        @keyframes cardColorSwap {
+            0%, 45% { background: linear-gradient(135deg, var(--card-chase), #0a3166); }
+            55%, 100% { background: linear-gradient(135deg, var(--card-grocery), #115234); }
+        }
 
-        /* Reward Badge (Capsule Pill) */
+        /* Badge text transition */
         .badge {
             position: absolute;
             top: -16px;
@@ -91,36 +107,36 @@
             font-weight: 700;
             box-shadow: 0 6px 18px rgba(92, 90, 51, 0.4);
             white-space: nowrap;
-            animation: pulse 2s infinite ease-in-out;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .badge::after {
+            content: "5x Rewards at ABCD cafe ✨";
+            animation: badgeTextSwap 6s infinite;
         }
 
-        /* Catchy Footer Text */
+        @keyframes badgeTextSwap {
+            0%, 45% { content: "5x Rewards at ABCD cafe ✨"; }
+            55%, 100% { content: "6x Rewards at Super Grocery 🛒"; }
+        }
+
+        .card-issuer { font-weight: 900; font-size: 10px; letter-spacing: 1.5px; text-align: left; }
+        .chip { width: 24px; height: 18px; background: #D4B483; border-radius: 3px; opacity: 0.8; }
+
         .hero-footer {
             font-size: 28px;
             font-weight: 600;
             color: var(--chur-olive);
             letter-spacing: -0.5px;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
         }
 
-        .highlight {
-            color: var(--chur-medium-gray);
-            font-weight: 400;
-        }
+        .highlight { color: var(--chur-medium-gray); font-weight: 400; }
 
-        /* Copyright Footer */
         .copyright {
-            position: fixed;
-            bottom: 30px;
+            margin-top: auto;
+            padding-bottom: 30px;
             font-size: 13px;
             color: var(--chur-medium-gray);
-            font-weight: 500;
         }
     </style>
 </head>
@@ -128,11 +144,12 @@
 
     <div class="dot-grid"></div>
 
+    <div class="coming-soon-label">Coming soon to iOS</div>
     <h1>Chur</h1>
 
     <div class="stack-container">
         <div class="card card-1">
-            <div class="badge">5x Rewards at ABC cafe ✨</div>
+            <div class="badge"></div>
             <div style="display: flex; justify-content: space-between;">
                 <div class="card-issuer">CHUR</div>
                 <div class="chip"></div>
@@ -154,11 +171,11 @@
     </div>
 
     <div class="hero-footer">
-        Your wallet. <span class="highlight">Smarter.</span>
+        Your wallet. <span class="highlight">Smarter?</span>
     </div>
 
     <div class="copyright">
-        &copy; 2026 Chur App &nbsp;·&nbsp; Coming Soon to iOS
+        &copy; 2026 Chur App
     </div>
 
 </body>
