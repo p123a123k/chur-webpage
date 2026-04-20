@@ -11,7 +11,7 @@
             --chur-medium-gray: #888888;
             --card-chase: #104b9b;
             --card-amex: #d4af37;
-            --card-grocery: #1a7a4d; /* Green for Grocery */
+            --card-grocery: #1a7a4d;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -21,12 +21,12 @@
             display: flex; 
             flex-direction: column;
             align-items: center; 
-            justify-content: flex-start; /* Move content up */
+            justify-content: flex-start;
             min-height: 100vh; 
             font-family: ui-rounded, -apple-system, BlinkMacSystemFont, "SF Pro Rounded", sans-serif;
             overflow: hidden;
             text-align: center;
-            padding-top: 8vh; /* Controlled space from top */
+            padding-top: 10vh;
         }
 
         .dot-grid {
@@ -40,21 +40,11 @@
             z-index: -1;
         }
 
-        /* "Coming Soon" moved above header */
-        .coming-soon-label {
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--chur-medium-gray);
-            margin-bottom: 8px;
-        }
-
         h1 {
             color: var(--chur-olive);
-            font-size: 72px;
+            font-size: 82px;
             font-weight: 800;
-            letter-spacing: -3px;
+            letter-spacing: -4px;
             margin-bottom: 60px;
             line-height: 1;
         }
@@ -63,7 +53,7 @@
             position: relative;
             width: 240px;
             height: 180px;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
 
         .card {
@@ -73,14 +63,22 @@
             border-radius: 14px;
             padding: 18px;
             color: white;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: all 0.8s ease;
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        /* Card 1: Color Transition Animation */
+        /* Card Shine Overlay */
+        .card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(110deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.05) 100%);
+            border-radius: 14px;
+        }
+
         .card-1 { 
             z-index: 3; 
             transform: rotate(-4deg);
@@ -90,11 +88,11 @@
         .card-3 { background: #c5a059; transform: rotate(6deg) translateY(24px) scale(0.92); z-index: 1; opacity: 0.7; }
 
         @keyframes cardColorSwap {
-            0%, 45% { background: linear-gradient(135deg, var(--card-chase), #0a3166); }
-            55%, 100% { background: linear-gradient(135deg, var(--card-grocery), #115234); }
+            0%, 45% { background: linear-gradient(135deg, var(--card-chase), #0a3166); transform: rotate(-4deg) scale(1); }
+            50% { transform: rotate(-4deg) scale(1.05); } /* Pop transition */
+            55%, 100% { background: linear-gradient(135deg, var(--card-grocery), #115234); transform: rotate(-4deg) scale(1); }
         }
 
-        /* Badge text transition */
         .badge {
             position: absolute;
             top: -16px;
@@ -105,8 +103,9 @@
             border-radius: 20px;
             font-size: 11px;
             font-weight: 700;
-            box-shadow: 0 6px 18px rgba(92, 90, 51, 0.4);
+            box-shadow: 0 8px 20px rgba(92, 90, 51, 0.4);
             white-space: nowrap;
+            z-index: 10;
         }
 
         .badge::after {
@@ -115,28 +114,43 @@
         }
 
         @keyframes badgeTextSwap {
-            0%, 45% { content: "5x Rewards at ABCD cafe ✨"; }
-            55%, 100% { content: "6x Rewards at Super Grocery 🛒"; }
+            0%, 45% { content: "5x Rewards at ABCD cafe ✨"; opacity: 1; }
+            48%, 52% { opacity: 0; }
+            55%, 100% { content: "6x Rewards at Super Grocery 🛒"; opacity: 1; }
         }
 
-        .card-issuer { font-weight: 900; font-size: 10px; letter-spacing: 1.5px; text-align: left; }
+        .card-issuer { font-weight: 900; font-size: 10px; letter-spacing: 1.5px; }
         .chip { width: 24px; height: 18px; background: #D4B483; border-radius: 3px; opacity: 0.8; }
 
         .hero-footer {
-            font-size: 28px;
-            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .hero-footer h2 {
+            font-size: 32px;
+            font-weight: 700;
             color: var(--chur-olive);
             letter-spacing: -0.5px;
-            margin-bottom: 20px;
         }
 
         .highlight { color: var(--chur-medium-gray); font-weight: 400; }
 
-        .copyright {
-            margin-top: auto;
-            padding-bottom: 30px;
-            font-size: 13px;
+        .coming-soon-label {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
             color: var(--chur-medium-gray);
+            margin-top: 12px;
+            display: block;
+        }
+
+        .copyright {
+            position: fixed;
+            bottom: 30px;
+            font-size: 12px;
+            color: var(--chur-medium-gray);
+            opacity: 0.6;
         }
     </style>
 </head>
@@ -144,7 +158,6 @@
 
     <div class="dot-grid"></div>
 
-    <div class="coming-soon-label">Coming soon to iOS</div>
     <h1>Chur</h1>
 
     <div class="stack-container">
@@ -154,29 +167,22 @@
                 <div class="card-issuer">CHUR</div>
                 <div class="chip"></div>
             </div>
-            <div style="text-align: left; font-size: 12px; font-weight: 600;">Best card</div>
+            <div style="text-align: left; font-size: 12px; font-weight: 600; opacity: 0.9;">Best card</div>
         </div>
         <div class="card card-2">
-            <div style="display: flex; justify-content: space-between;">
-                <div class="card-issuer">MY BANK</div>
-                <div class="chip"></div>
-            </div>
+            <div style="display: flex; justify-content: space-between;"><div class="card-issuer">MY BANK</div><div class="chip"></div></div>
         </div>
         <div class="card card-3">
-            <div style="display: flex; justify-content: space-between;">
-                <div class="card-issuer">CARD</div>
-                <div class="chip"></div>
-            </div>
+            <div style="display: flex; justify-content: space-between;"><div class="card-issuer">CARD</div><div class="chip"></div></div>
         </div>
     </div>
 
     <div class="hero-footer">
-        Your wallet. <span class="highlight">Smarter?</span>
+        <h2>Your wallet. <span class="highlight">Smarter.</span></h2>
+        <span class="coming-soon-label">Coming soon to iOS</span>
     </div>
 
-    <div class="copyright">
-        &copy; 2026 Chur App
-    </div>
+    <div class="copyright">&copy; 2026 Chur App</div>
 
 </body>
 </html>
