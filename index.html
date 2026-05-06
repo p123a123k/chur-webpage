@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chur</title>
+    <title>Chur – Your Wallet, Smarter</title>
     <style>
         :root {
             --chur-off-white: #F3EFE4;
@@ -16,87 +16,141 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body { 
-            background-color: var(--chur-off-white); 
-            display: flex; 
-            flex-direction: column;
-            align-items: center; 
-            justify-content: flex-start;
-            min-height: 100vh; 
+        body {
+            background-color: var(--chur-off-white);
             font-family: ui-rounded, -apple-system, BlinkMacSystemFont, "SF Pro Rounded", sans-serif;
-            overflow: hidden;
-            text-align: center;
-            padding-top: 10vh;
+            color: var(--chur-olive);
+            overflow-x: hidden;
         }
 
+        /* Dot grid */
         .dot-grid {
             position: fixed;
             inset: 0;
             background-image: radial-gradient(var(--chur-olive) 1px, transparent 1px);
             background-size: 24px 24px;
-            opacity: 0.08;
-            mask-image: radial-gradient(circle, black 40%, transparent 80%);
-            -webkit-mask-image: radial-gradient(circle, black 40%, transparent 80%);
-            z-index: -1;
+            opacity: 0.06;
+            pointer-events: none;
+            z-index: 0;
         }
 
-        h1 {
-            color: var(--chur-olive);
-            font-size: 82px;
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 18px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(243, 239, 228, 0.82);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .nav-logo {
+            font-size: 22px;
             font-weight: 800;
-            letter-spacing: -4px;
-            margin-bottom: 60px;
-            line-height: 1;
+            letter-spacing: -1px;
+            color: var(--chur-olive);
         }
 
+        .nav-pill {
+            background: var(--chur-olive);
+            color: var(--chur-off-white);
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            cursor: default;
+            opacity: 0.85;
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 24px 100px;
+        }
+
+        .hero h1 {
+            font-size: clamp(72px, 14vw, 128px);
+            font-weight: 800;
+            letter-spacing: -5px;
+            line-height: 1;
+            color: var(--chur-olive);
+            margin-bottom: 52px;
+        }
+
+        /* Card stack */
         .stack-container {
             position: relative;
-            width: 240px;
-            height: 180px;
-            margin-bottom: 50px;
+            width: 270px;
+            height: 210px;
+            margin-bottom: 52px;
         }
 
         .card {
             position: absolute;
-            width: 240px;
-            height: 152px;
-            border-radius: 14px;
-            padding: 18px;
+            width: 270px;
+            height: 170px;
+            border-radius: 18px;
+            padding: 22px;
             color: white;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.16);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        /* Card Shine Overlay */
         .card::after {
             content: "";
             position: absolute;
             inset: 0;
-            background: linear-gradient(110deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.05) 100%);
-            border-radius: 14px;
+            background: linear-gradient(115deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.06) 100%);
+            border-radius: 18px;
+            pointer-events: none;
         }
 
-        .card-1 { 
-            z-index: 3; 
+        .card-1 {
+            z-index: 3;
             transform: rotate(-4deg);
             animation: cardColorSwap 6s infinite;
         }
-        .card-2 { background: var(--card-amex); transform: rotate(2deg) translateY(12px) scale(0.96); z-index: 2; opacity: 0.9; }
-        .card-3 { background: #c5a059; transform: rotate(6deg) translateY(24px) scale(0.92); z-index: 1; opacity: 0.7; }
+
+        .card-2 {
+            background: var(--card-amex);
+            transform: rotate(2deg) translateY(14px) scale(0.96);
+            z-index: 2;
+            opacity: 0.9;
+        }
+
+        .card-3 {
+            background: #c5a059;
+            transform: rotate(6deg) translateY(28px) scale(0.92);
+            z-index: 1;
+            opacity: 0.7;
+        }
 
         @keyframes cardColorSwap {
-            0%, 45% { background: linear-gradient(135deg, var(--card-chase), #0a3166); transform: rotate(-4deg) scale(1); }
-            50% { transform: rotate(-4deg) scale(1.05); } /* Pop transition */
-            55%, 100% { background: linear-gradient(135deg, var(--card-grocery), #115234); transform: rotate(-4deg) scale(1); }
+            0%, 45%  { background: linear-gradient(135deg, var(--card-chase), #0a3166); transform: rotate(-4deg) scale(1); }
+            50%      { transform: rotate(-4deg) scale(1.05); }
+            55%, 100%{ background: linear-gradient(135deg, var(--card-grocery), #115234); transform: rotate(-4deg) scale(1); }
         }
 
         .badge {
             position: absolute;
-            top: -16px;
-            right: -12px;
+            top: -20px;
+            right: -16px;
             background: var(--chur-olive);
             color: white;
             padding: 8px 14px;
@@ -114,43 +168,302 @@
         }
 
         @keyframes badgeTextSwap {
-            0%, 45% { content: "5x Rewards at ABC cafe ☕️"; opacity: 1; }
+            0%, 45%  { content: "5x Rewards at ABC cafe ☕️"; opacity: 1; }
             48%, 52% { opacity: 0; }
-            55%, 100% { content: "6x Rewards at Z Market 🛒"; opacity: 1; }
+            55%, 100%{ content: "6x Rewards at Z Market 🛒"; opacity: 1; }
         }
 
         .card-issuer { font-weight: 900; font-size: 10px; letter-spacing: 1.5px; }
-        .chip { width: 24px; height: 18px; background: #D4B483; border-radius: 3px; opacity: 0.8; }
+        .chip { width: 26px; height: 20px; background: #D4B483; border-radius: 4px; opacity: 0.85; }
 
-        .hero-footer {
-            margin-top: 20px;
-        }
-
-        .hero-footer h2 {
-            font-size: 32px;
+        /* Hero copy */
+        .hero-copy h2 {
+            font-size: clamp(26px, 4vw, 38px);
             font-weight: 700;
-            color: var(--chur-olive);
             letter-spacing: -0.5px;
+            color: var(--chur-olive);
+            margin-bottom: 10px;
         }
 
         .highlight { color: var(--chur-medium-gray); font-weight: 400; }
 
-        .coming-soon-label {
-            font-size: 10px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .hero-copy p {
+            font-size: 17px;
             color: var(--chur-medium-gray);
-            margin-top: 12px;
+            font-weight: 400;
+            margin-bottom: 36px;
+            line-height: 1.5;
+        }
+
+        .coming-soon-tag {
+            display: inline-block;
+            border: 1.5px solid rgba(92, 90, 51, 0.25);
+            color: var(--chur-olive);
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            opacity: 0.7;
+        }
+
+        /* Scroll hint */
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            opacity: 0.3;
+            animation: scrollBob 2s ease-in-out infinite;
+        }
+
+        .scroll-hint span {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--chur-olive);
+        }
+
+        .scroll-arrow {
+            width: 16px;
+            height: 16px;
+            border-right: 2px solid var(--chur-olive);
+            border-bottom: 2px solid var(--chur-olive);
+            transform: rotate(45deg);
+        }
+
+        @keyframes scrollBob {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50%       { transform: translateX(-50%) translateY(6px); }
+        }
+
+        /* Features */
+        .features {
+            position: relative;
+            z-index: 1;
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 32px 80px;
+        }
+
+        .feature-row {
+            display: flex;
+            align-items: center;
+            gap: 80px;
+            padding: 80px 0;
+            border-top: 1px solid rgba(92, 90, 51, 0.1);
+        }
+
+        .feature-row.reverse { flex-direction: row-reverse; }
+
+        /* Phone frame */
+        .feature-phone {
+            flex: 0 0 auto;
+            width: 248px;
+            position: relative;
+        }
+
+        .phone-frame {
+            background: #1a1a1a;
+            border-radius: 44px;
+            padding: 10px;
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.08) inset,
+                0 32px 64px rgba(92, 90, 51, 0.18),
+                0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .phone-frame img {
+            width: 100%;
+            border-radius: 36px;
             display: block;
         }
 
-        .copyright {
-            position: fixed;
-            bottom: 30px;
+        /* Feature text */
+        .feature-content {
+            flex: 1;
+        }
+
+        .feature-tag {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--chur-medium-gray);
+            margin-bottom: 18px;
+            padding: 6px 12px;
+            border: 1.5px solid rgba(136, 136, 136, 0.3);
+            border-radius: 50px;
+        }
+
+        .feature-content h3 {
+            font-size: clamp(28px, 3.5vw, 40px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            color: var(--chur-olive);
+            margin-bottom: 18px;
+        }
+
+        .feature-content p {
+            font-size: 17px;
+            line-height: 1.65;
+            color: var(--chur-medium-gray);
+            font-weight: 400;
+            max-width: 420px;
+        }
+
+        /* Stat pills */
+        .stat-pills {
+            display: flex;
+            gap: 12px;
+            margin-top: 28px;
+            flex-wrap: wrap;
+        }
+
+        .stat-pill {
+            background: rgba(92, 90, 51, 0.08);
+            border-radius: 50px;
+            padding: 10px 18px;
+        }
+
+        .stat-pill strong {
+            display: block;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--chur-olive);
+        }
+
+        .stat-pill span {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--chur-medium-gray);
+            letter-spacing: 0.3px;
+        }
+
+        /* CTA */
+        .cta-section {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 100px 24px 120px;
+            border-top: 1px solid rgba(92, 90, 51, 0.1);
+        }
+
+        .cta-eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--chur-medium-gray);
+            margin-bottom: 20px;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(36px, 7vw, 64px);
+            font-weight: 800;
+            letter-spacing: -2.5px;
+            line-height: 1.05;
+            color: var(--chur-olive);
+            margin-bottom: 18px;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            color: var(--chur-medium-gray);
+            font-weight: 400;
+            margin-bottom: 44px;
+            max-width: 440px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.55;
+        }
+
+        .app-store-mockup {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--chur-olive);
+            color: white;
+            padding: 16px 28px;
+            border-radius: 18px;
+            cursor: default;
+            opacity: 0.9;
+        }
+
+        .app-store-mockup svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+            flex-shrink: 0;
+        }
+
+        .app-store-text {
+            text-align: left;
+        }
+
+        .app-store-text small {
+            display: block;
+            font-size: 10px;
+            font-weight: 500;
+            opacity: 0.75;
+            letter-spacing: 0.3px;
+        }
+
+        .app-store-text strong {
+            display: block;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 28px;
             font-size: 12px;
             color: var(--chur-medium-gray);
-            opacity: 0.6;
+            opacity: 0.55;
+            border-top: 1px solid rgba(92, 90, 51, 0.08);
+        }
+
+        /* Fade-in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.65s ease, transform 0.65s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 800px) {
+            nav { padding: 16px 24px; }
+
+            .feature-row,
+            .feature-row.reverse {
+                flex-direction: column;
+                gap: 40px;
+                padding: 60px 0;
+            }
+
+            .feature-phone { width: 220px; }
+
+            .feature-content p { max-width: 100%; }
+
+            .features { padding: 0 20px 60px; }
         }
     </style>
 </head>
@@ -158,31 +471,181 @@
 
     <div class="dot-grid"></div>
 
-    <h1>Chur</h1>
+    <!-- Nav -->
+    <nav>
+        <div class="nav-logo">Chur</div>
+        <div class="nav-pill">Coming Soon</div>
+    </nav>
 
-    <div class="stack-container">
-        <div class="card card-1">
-            <div class="badge"></div>
-            <div style="display: flex; justify-content: space-between;">
-                <div class="card-issuer">CHUR</div>
-                <div class="chip"></div>
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Chur</h1>
+
+        <div class="stack-container">
+            <div class="card card-1">
+                <div class="badge"></div>
+                <div style="display:flex;justify-content:space-between;">
+                    <div class="card-issuer">CHUR</div>
+                    <div class="chip"></div>
+                </div>
+                <div style="text-align:left;font-size:12px;font-weight:600;opacity:0.9;">Best card</div>
             </div>
-            <div style="text-align: left; font-size: 12px; font-weight: 600; opacity: 0.9;">Best card</div>
+            <div class="card card-2">
+                <div style="display:flex;justify-content:space-between;">
+                    <div class="card-issuer">MY BANK</div>
+                    <div class="chip"></div>
+                </div>
+            </div>
+            <div class="card card-3">
+                <div style="display:flex;justify-content:space-between;">
+                    <div class="card-issuer">CARD</div>
+                    <div class="chip"></div>
+                </div>
+            </div>
         </div>
-        <div class="card card-2">
-            <div style="display: flex; justify-content: space-between;"><div class="card-issuer">MY BANK</div><div class="chip"></div></div>
-        </div>
-        <div class="card card-3">
-            <div style="display: flex; justify-content: space-between;"><div class="card-issuer">CARD</div><div class="chip"></div></div>
-        </div>
-    </div>
 
-    <div class="hero-footer">
-        <h2><span class="highlight">Your wallet.</span> Smarter.</h2>
-        <span class="coming-soon-label">Coming soon to App Store</span>
-    </div>
+        <div class="hero-copy">
+            <h2><span class="highlight">Your wallet.</span> Smarter.</h2>
+            <p>Always know which card earns you the most —<br>wherever you shop.</p>
+            <div class="coming-soon-tag">Coming soon to App Store</div>
+        </div>
 
-    <div class="copyright">&copy; 2026 Chur App</div>
+        <div class="scroll-hint">
+            <span>Scroll</span>
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+
+        <!-- SS1: Home / Nearby -->
+        <div class="feature-row fade-in">
+            <div class="feature-phone">
+                <div class="phone-frame">
+                    <img src="../SS1.png" alt="Chur home screen – nearby rewards">
+                </div>
+            </div>
+            <div class="feature-content">
+                <div class="feature-tag">Nearby</div>
+                <h3>Earn more everywhere you go</h3>
+                <p>See exactly which card earns the most at restaurants, shops, and merchants around you — in real time. Chur surfaces your best card for every location before you even reach the register.</p>
+                <div class="stat-pills">
+                    <div class="stat-pill">
+                        <strong>8%</strong>
+                        <span>Dining at The Cheesecake Factory</span>
+                    </div>
+                    <div class="stat-pill">
+                        <strong>5x</strong>
+                        <span>Points at nearby cafes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SS2: Cards / Benefits -->
+        <div class="feature-row reverse fade-in">
+            <div class="feature-phone">
+                <div class="phone-frame">
+                    <img src="../SS2.png" alt="Chur cards screen – card benefits">
+                </div>
+            </div>
+            <div class="feature-content">
+                <div class="feature-tag">Cards</div>
+                <h3>All your cards, one smart wallet</h3>
+                <p>Track benefits, credits, and rewards across every card you own. Chur reminds you about monthly dining credits, Uber Cash, and more — so nothing expires unused.</p>
+                <div class="stat-pills">
+                    <div class="stat-pill">
+                        <strong>$10</strong>
+                        <span>Dining Credit</span>
+                    </div>
+                    <div class="stat-pill">
+                        <strong>$15</strong>
+                        <span>Uber Cash</span>
+                    </div>
+                    <div class="stat-pill">
+                        <strong>$7</strong>
+                        <span>Dunkin' Credit</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SS3: Search / Map -->
+        <div class="feature-row fade-in">
+            <div class="feature-phone">
+                <div class="phone-frame">
+                    <img src="../SS3.png" alt="Chur search screen – map view">
+                </div>
+            </div>
+            <div class="feature-content">
+                <div class="feature-tag">Search</div>
+                <h3>Discover where your cards shine</h3>
+                <p>Browse nearby merchants on an interactive map or filter by category — Dining, Grocery, Fuel, and more. Find the spots where your cards earn the most, before you head out.</p>
+            </div>
+        </div>
+
+        <!-- SS4: Merchant detail / Recommendation -->
+        <div class="feature-row reverse fade-in">
+            <div class="feature-phone">
+                <div class="phone-frame">
+                    <img src="../SS4.png" alt="Chur merchant view – best card recommendation">
+                </div>
+            </div>
+            <div class="feature-content">
+                <div class="feature-tag">Recommendations</div>
+                <h3>The right card, every time</h3>
+                <p>Shopping at Temu? Grabbing groceries? Chur instantly shows you the best card to use and ranks alternatives by effective reward rate. No spreadsheets. No guessing.</p>
+                <div class="stat-pills">
+                    <div class="stat-pill">
+                        <strong>3.7%</strong>
+                        <span>Effective rate</span>
+                    </div>
+                    <div class="stat-pill">
+                        <strong>2x</strong>
+                        <span>Card rate</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section fade-in">
+        <p class="cta-eyebrow">Almost here</p>
+        <h2>Your smarter wallet<br>is on its way.</h2>
+        <p>Chur is launching soon on iOS. Be the first to know which card earns you the most — everywhere.</p>
+        <div class="app-store-mockup">
+            <!-- Apple logo SVG -->
+            <svg viewBox="0 0 814 1000" xmlns="http://www.w3.org/2000/svg">
+                <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-37.5-155.5-127.4C46 790.7 0 663 0 541.8c0-207.5 135.4-317.3 269-317.3 70.1 0 128.4 46.4 172.5 46.4 42.8 0 109.6-49 192.5-49 30.6 0 132.2 3.2 198.8 99z"/>
+                <path d="M554.1 88.4c24.4-29 41.1-69.1 41.1-109.2 0-5.8-.6-11.6-1.9-16.2-39.2 1.9-86.4 27.4-114.7 57.7-21.9 24.4-41.2 63.2-41.2 103.3 0 6.4.6 12.9 1.9 17.5 3.2.6 6.5.6 9.7.6 35.3 0 79.3-23.7 105.1-53.7z"/>
+            </svg>
+            <div class="app-store-text">
+                <small>Coming soon to the</small>
+                <strong>App Store</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2026 Chur App. All rights reserved.
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
 
 </body>
 </html>
